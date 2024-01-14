@@ -1,4 +1,4 @@
-namespace loltest.API
+namespace ShockedIsaac.API
 {
     public enum ControlType
     {

@@ -2,7 +2,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 
-namespace loltest.API;
+namespace ShockedIsaac.API;
 
 public class OpenShockAPI 
 {

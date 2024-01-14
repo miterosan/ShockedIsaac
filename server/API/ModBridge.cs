@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace loltest.API
+namespace ShockedIsaac.API
 {
     public class ModBridge
     {

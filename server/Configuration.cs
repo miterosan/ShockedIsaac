@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using IniFile;
 
-namespace loltest
+namespace ShockedIsaac
 {
     public class Configuration
     {

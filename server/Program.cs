@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using loltest;
-using loltest.API;
+using ShockedIsaac;
+using ShockedIsaac.API;
 
 var apiKey = Configuration.getApiKey();
 
