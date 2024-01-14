@@ -23,7 +23,7 @@ function mod:onIsaacDamage(aEntity ,DamageAmount ,DamageFlags ,DamageSource ,Dam
     end
 
 
-    --tcp:close()
+    tcp:close()
 
     return nil
 
