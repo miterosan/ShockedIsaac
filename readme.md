@@ -25,3 +25,4 @@ Intentional damage (curse, sacrefice rooms) shock aswell, but shorter
 - There arent any settings yet. (Except the API key)
 - On hit translates to 1 second 20% shock strength * (hearts lost)
 - On intentional hit translates to 0.3 seconds with 100% shock strength
+- **Every connected shocker will go off**
