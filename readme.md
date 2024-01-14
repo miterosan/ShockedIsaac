@@ -10,6 +10,8 @@ Intentional damage (curse, sacrefice rooms) shock aswell, but shorter
 
 ## Installation
 
+You need a current version of the [dotnet sdk](https://dotnet.microsoft.com/en-us/download)
+
 1. Copy the client folder to "C:\Program Files (x86)\Steam\steamapps\common\The Binding of Isaac Rebirth\mods"
 2. Rename the folder to shockedisaac.
 3. Start the server using ```dotnet run```.
