@@ -1,4 +1,4 @@
-local mod = RegisterMod("Shocking", 1)
+local mod = RegisterMod("ShockedIsaac", 1)
 local socket = require("socket")
 
 
