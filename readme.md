@@ -5,7 +5,7 @@ OpenShock/Shocklink support for isaac.
 
 Shocks when isaac gets hit
 
-Intentional damage (curse, sacrefice rooms) shock aswell, but shorter
+Intentional damage (curse, sacrifice rooms) shock aswell, but shorter with more strength
 
 
 ## Installation
