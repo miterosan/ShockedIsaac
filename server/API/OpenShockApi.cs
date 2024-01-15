@@ -43,7 +43,7 @@ public class OpenShockAPI
                         duration,
                     },
                 },
-            customName = "isaac"
+            customName
             }),
             Encoding.UTF8,
             "application/json"
