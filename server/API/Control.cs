@@ -7,7 +7,7 @@ namespace ShockedIsaac.API
 {
     public class Control
     {
-        string id { get; set; }
+        string? id { get; set; }
         
     }
 }

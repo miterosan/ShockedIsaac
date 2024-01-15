@@ -7,8 +7,8 @@ namespace ShockedIsaac.API
 {
     public class BaseResponse<T>
     {
-        public string message { get; set; }
+        public string? message { get; set; }
 
-        public T[] data { get; set; }
+        public T[]? data { get; set; }
     }
 }

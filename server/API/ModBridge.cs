@@ -58,15 +58,15 @@ namespace ShockedIsaac.API
             switch (split[0])
             {   
                 case "onDamage": {
-                    await OnDamage?.Invoke((int)float.Parse(split[1]));
+                    await OnDamage.Invoke((int)float.Parse(split[1]));
                     break;
                 }
                 case "onIntentionalDamage": {
-                    await OnIntentionalDamage?.Invoke((int)float.Parse(split[1]));
+                    await OnIntentionalDamage.Invoke((int)float.Parse(split[1]));
                     break;
                 }
                 case "onDeath": {
-                    await OnDeath?.Invoke();
+                    await OnDeath.Invoke();
                     break;
                 }
                 

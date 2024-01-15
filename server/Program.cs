@@ -3,9 +3,10 @@ using ShockedIsaac.API;
 
 var apiKey = Configuration.getApiKey();
 
-if (apiKey == null) {
+if (string.IsNullOrWhiteSpace(apiKey)) {
     Console.WriteLine("Please write your API key and press enter:");
-    apiKey = Console.ReadLine();
+
+    while((apiKey = Console.ReadLine()) == null);
 
     Configuration.setApiKey(apiKey);
 
@@ -24,6 +25,8 @@ foreach (var device in devices)
 {
     Console.WriteLine();
     Console.WriteLine(device.name);
+
+    if (device.shockers == null) continue;
 
     foreach (var shocker in device.shockers) {
         Console.WriteLine($"\t{shocker.name}");

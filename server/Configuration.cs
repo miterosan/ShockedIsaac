@@ -21,7 +21,7 @@ namespace ShockedIsaac
             var ini = new Ini(settingsFile);
 
             if (!ini.Any(s => s.Name == "Settings"))
-                return null;
+                return string.Empty;
 
             var settings = ini["Settings"];
             
