@@ -38,15 +38,15 @@ ModBridge bridge = new()
     {
         foreach (var shocker in allShockers)
         {
-            Console.WriteLine("sending shock...");
-            await api.ControlShocker(shocker, ShockerCommandType.Shock, amount * 20, 1000, "Isaac got hurt");
+            Console.WriteLine($"Got hit with {amount} damage. Sending shock...");
+            await api.ControlShocker(shocker, ShockerCommandType.Shock, 20 + amount * 20, 1000, "Isaac got hurt");
         }
     },
     OnIntentionalDamage = async amount => 
     {
         foreach (var shocker in allShockers)
         {
-            Console.WriteLine("sending intentional shock...");
+            Console.WriteLine("Sending intentional shock...");
             await api.ControlShocker(shocker, ShockerCommandType.Shock, 100, 300, "Isaac hurt himself");
         }
     },
