@@ -13,15 +13,16 @@ namespace ShockedIsaac.API
     {
         private readonly int port = 11000;
 
-        public Func<int, Task> OnDamage;
-        public Func<int, Task> OnIntentionalDamage;
+        public required Func<int, Task> OnDamage;
+        public required Func<int, Task> OnIntentionalDamage;
+        public required Func<Task> OnDeath;
 
         public async Task StartServer() {
             IPHostEntry host = Dns.GetHostEntry("localhost");
             IPAddress ipAddress = host.AddressList[0];
-            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, port);
+            IPEndPoint localEndPoint = new(ipAddress, port);
 
-            Socket listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            Socket listener = new(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
             listener.Bind(localEndPoint);
 
@@ -50,7 +51,7 @@ namespace ShockedIsaac.API
                 handler.Close();
              }
         }
-    
+
         private async Task handleEvent(string command) {
             var split = command.Split(",");
             
@@ -62,6 +63,10 @@ namespace ShockedIsaac.API
                 }
                 case "onIntentionalDamage": {
                     await OnIntentionalDamage?.Invoke((int)float.Parse(split[1]));
+                    break;
+                }
+                case "onDeath": {
+                    await OnDeath?.Invoke();
                     break;
                 }
                 

@@ -1,7 +1,4 @@
-﻿using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using ShockedIsaac;
+﻿using ShockedIsaac;
 using ShockedIsaac.API;
 
 var apiKey = Configuration.getApiKey();
@@ -35,7 +32,7 @@ foreach (var device in devices)
     }
 }
 
-ModBridge bridge = new ModBridge
+ModBridge bridge = new()
 {
     OnDamage = async amount =>
     {
@@ -52,7 +49,15 @@ ModBridge bridge = new ModBridge
             Console.WriteLine("sending intentional shock...");
             await api.ControlShocker(shocker, ShockerCommandType.Shock, 100, 300, "Isaac hurt himself");
         }
-    }
+    },
+    OnDeath = async () => 
+    {
+        foreach (var shocker in allShockers)
+        {
+            Console.WriteLine("sending intentional shock...");
+            await api.ControlShocker(shocker, ShockerCommandType.Shock, 70, 1500, "Isaac died");
+        }
+    },
 };
 
 

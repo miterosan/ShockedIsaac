@@ -24,10 +24,14 @@ function mod:onIsaacDamage(aEntity, DamageAmount, DamageFlags, DamageSource, Dam
     else
         mod:sendMessage("onDamage," .. amount)
     end
-    
+
     return nil
 end
 
+function mod:onIsaacDeath()
+    mod:sendMessage("onDeath")
+end
 
 
+mod:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, mod.onIsaacDeath, EntityType.ENTITY_PLAYER)
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.onIsaacDamage, EntityType.ENTITY_PLAYER)
