@@ -3,10 +3,11 @@ Shocked Isaac mod
 
 OpenShock/Shocklink support for isaac.
 
-Shocks when isaac gets hit
+Shocks when isaac gets hit or dies
 
 Intentional damage (curse, sacrifice rooms) shock aswell, but shorter with more strength
 
+**This is work in progress, use at your own risk.**
 
 ## Installation
 
