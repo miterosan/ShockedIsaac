@@ -17,7 +17,7 @@ function mod:onIsaacDamage(aEntity, DamageAmount, DamageFlags, DamageSource, Dam
 
     local isIntentional = (DamageFlags & DamageFlag.DAMAGE_NO_PENALTIES) == DamageFlag.DAMAGE_NO_PENALTIES
 
-    local amount = tostring(tonumber(string.format(DamageAmount, "%.f")))
+    local amount = string.format("%.f", DamageAmount)
 
     if isIntentional then
         mod:sendMessage("onIntentionalDamage," .. amount)
