@@ -42,23 +42,41 @@ ModBridge bridge = new()
         foreach (var shocker in allShockers)
         {
             Console.WriteLine($"Got hit with {amount} damage. Sending shock...");
-            await api.ControlShocker(shocker, ShockerCommandType.Shock, 20 + amount * 20, 1000, "Isaac got hurt");
+            await api.ControlShocker(new ControlRequest() {
+                Amount = 20 + amount * 20,
+                Duration = 1000,
+                Name = "Isaac got hurt",
+                Shocker = shocker,
+                Type = ShockerCommandType.Shock
+            });
         }
     },
     OnIntentionalDamage = async amount => 
     {
         foreach (var shocker in allShockers)
         {
-            Console.WriteLine("Sending intentional shock...");
-            await api.ControlShocker(shocker, ShockerCommandType.Shock, 100, 300, "Isaac hurt himself");
+            Console.WriteLine("Got intentional damage (sacrifice room, etc). Sending shock...");
+            await api.ControlShocker(new ControlRequest() {
+                Amount = 100,
+                Duration = 300,
+                Name = "Isaac got hurt",
+                Shocker = shocker,
+                Type = ShockerCommandType.Shock
+            });
         }
     },
     OnDeath = async () => 
     {
         foreach (var shocker in allShockers)
         {
-            Console.WriteLine("sending intentional shock...");
-            await api.ControlShocker(shocker, ShockerCommandType.Shock, 70, 1500, "Isaac died");
+            Console.WriteLine("Isaac died. Sending shock...");
+            await api.ControlShocker(new ControlRequest() {
+                Amount = 70,
+                Duration = 1500,
+                Name = "Isaac died",
+                Shocker = shocker,
+                Type = ShockerCommandType.Shock
+            });
         }
     },
 };

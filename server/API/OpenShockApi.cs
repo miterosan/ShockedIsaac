@@ -10,39 +10,37 @@ public class OpenShockAPI
  
     private readonly HttpClient httpClient;
 
-    private readonly string APIKey;
-
     public OpenShockAPI(string apiKey)
     {
-        APIKey = apiKey ?? throw new ArgumentNullException(nameof(apiKey));
+        ArgumentNullException.ThrowIfNull(apiKey);
 
         httpClient = new HttpClient {
             BaseAddress = new Uri(baseAdress)
         };
 
-        httpClient.DefaultRequestHeaders.Add("OpenShockToken", APIKey);
+        httpClient.DefaultRequestHeaders.Add("OpenShockToken", apiKey);
     }
 
-    public async Task ControlShocker(Shocker shocker, ShockerCommandType type, int intensity, int duration, string customName = "IsaacShock") {
-
+    public async Task ControlShocker(ControlRequest controlRequest) 
+    {
         using StringContent jsonContent = new(
             JsonSerializer.Serialize(new
             {
                 shocks = new[] {
                     new { 
-                        shocker.id,
-                        type = (int)type,
-                        intensity,
-                        duration,
+                        controlRequest.Shocker.id,
+                        type = (int)controlRequest.Type,
+                        intensity = controlRequest.Amount,
+                        controlRequest.Duration,
                     },
                 },
-            customName
+                customName = controlRequest.Name
             }),
             Encoding.UTF8,
             "application/json"
         );
 
-        Console.WriteLine($"Sending shock with intensity: {intensity}, duration: {duration}");
+        Console.WriteLine($"Sending shock with intensity: {controlRequest.Amount}, duration: {controlRequest.Duration}");
 
         await httpClient.PostAsync("/2/shockers/control", jsonContent);
     }
