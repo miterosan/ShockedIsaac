@@ -1,33 +1,31 @@
 local mod = RegisterMod("ShockedIsaac", 1)
 local socket = require("socket")
 
-
-
-
-function mod:onIsaacDamage(aEntity ,DamageAmount ,DamageFlags ,DamageSource ,DamageCountdown)
-
+-- would it be better to not reconnect every time a message gets send?
+function mod:sendMessage(message)
     local host, port = "localhost", 11000
     local tcp = assert(socket.tcp())
 
     tcp:connect(host, port)
 
-    local isIntentional = (DamageFlags & DamageFlag.DAMAGE_NO_PENALTIES) == DamageFlag.DAMAGE_NO_PENALTIES
-
-
-    local amount = tonumber(string.format(DamageAmount, "%.f"))
-
-    if isIntentional then
-        tcp:send("onIntentionalDamage," .. tostring(amount))
-    else
-        tcp:send("onDamage," .. tostring(amount))
-    end
-
+    tcp:send(message)
 
     tcp:close()
+end
 
+function mod:onIsaacDamage(aEntity, DamageAmount, DamageFlags, DamageSource, DamageCountdown)
+
+    local isIntentional = (DamageFlags & DamageFlag.DAMAGE_NO_PENALTIES) == DamageFlag.DAMAGE_NO_PENALTIES
+
+    local amount = tostring(tonumber(string.format(DamageAmount, "%.f")))
+
+    if isIntentional then
+        mod:sendMessage("onIntentionalDamage," .. amount)
+    else
+        mod:sendMessage("onDamage," .. amount)
+    end
+    
     return nil
-
-
 end
 
 
