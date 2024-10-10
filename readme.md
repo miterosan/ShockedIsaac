@@ -51,8 +51,7 @@ You need the current version of the [dotnet runtime or sdk](https://dotnet.micro
 |HitStrength| Strength 1-100 of the shock on a normal hit|
 |IntentionalHitDuration| Length in ms of the shock on a intentional hit (like sacrifice, some spikes, blood bank)|
 |IntentionalHitStrength| Strength 1-100 of the shock on a intentional hit (like sacrifice, some spikes, blood bank)|
-|HitDuration| Length in ms of the shock on a death|
-|DeathStrength| Strength 1-100 of the shock on a death|
+|DeathDuration| Length in ms of the shock on a death|
 |DeathStrength| Strength 1-100 of the shock on a death|
 |IntentionalDamageMode| Should an intentional hit result in a shock or virbation. Possible values: Shock or Vibrate|
 |Shockers| A list of the names of the shockers separated by ```,```|
