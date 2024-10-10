@@ -32,17 +32,15 @@ You need the current version of the [dotnet runtime or sdk](https://dotnet.micro
 
 6. Start the server again using```dotnet ShockedIsaac.dll```
 
-7. Start the server using ```dotnet run```.
+7. Insert the API token genertated from https://openshock.app/#/dashboard/tokens into the server console app.
 
-8. Insert the API token genertated from https://openshock.app/#/dashboard/tokens into the server console app.
-
-9. Go to the game settings of Isaac in Steam.
+8. Go to the game settings of Isaac in Steam.
 ![](docs/settings.png)
 
-10. Add ```--luadebug``` to the launch options
+9. Add ```--luadebug``` to the launch options
 ![](docs/settings2.png)
 
-11. Start Isaac and get shocked!
+10. Start Isaac and get shocked!
 
 # Configuration
 
