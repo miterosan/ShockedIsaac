@@ -13,23 +13,45 @@ function mod:sendMessage(message)
     tcp:close()
 end
 
+function mod:getPlayerIndexByControllerIndex(controllerIndex)
+    local game = Game()
+    local numPlayers = game:GetNumPlayers()
+
+    for i = 0, numPlayers - 1, 1 do
+        local p = Isaac.GetPlayer(i)
+
+        if p.ControllerIndex == controllerIndex then 
+            return i
+        end
+    end
+
+    return -1
+end
+
 function mod:onIsaacDamage(aEntity, DamageAmount, DamageFlags, DamageSource, DamageCountdown)
 
     local isIntentional = (DamageFlags & DamageFlag.DAMAGE_NO_PENALTIES) == DamageFlag.DAMAGE_NO_PENALTIES
 
     local amount = string.format("%.f", DamageAmount)
 
+    local player = aEntity:ToPlayer()
+    local playerIndex = mod:getPlayerIndexByControllerIndex(player.ControllerIndex)
+
     if isIntentional then
-        mod:sendMessage("onIntentionalDamage," .. amount)
+        mod:sendMessage("onIntentionalDamage," .. amount .. "," .. playerIndex)
     else
-        mod:sendMessage("onDamage," .. amount)
+        mod:sendMessage("onDamage," .. amount .. "," .. playerIndex)
     end
 
     return nil
 end
 
-function mod:onIsaacDeath()
-    mod:sendMessage("onDeath")
+function mod:onIsaacDeath(entity)
+
+    local player = entity:ToPlayer()
+    local playerIndex = mod:getPlayerIndexByControllerIndex(player.ControllerIndex)
+
+    mod:sendMessage("onDeath," .. playerIndex)
 end
 
 

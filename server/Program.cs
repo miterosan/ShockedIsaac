@@ -1,23 +1,23 @@
 ﻿using ShockedIsaac;
 using ShockedIsaac.API;
 
-var apiKey = Configuration.getApiKey();
+Console.WriteLine("Shocked Isaac server");
 
-if (string.IsNullOrWhiteSpace(apiKey)) {
-    Console.WriteLine("Please write your API key and press enter:");
+var configuration = new Configuration();
 
-    while((apiKey = Console.ReadLine()) == null);
-
-    Configuration.setApiKey(apiKey);
-
-    // todo check if valid
+if (string.IsNullOrWhiteSpace(configuration.ApiKey))
+{
+    Console.WriteLine("No Apikey was set in the settings.ini. Add one and start the server again.");
+    Console.ReadLine();
+    return;
 }
 
-var api = new OpenShockAPI(apiKey);
+
+var api = new OpenShockAPI(configuration.ApiKey);
 
 var devices = await api.GetOwnShockers();
 
-Console.WriteLine("Found following devices:");
+Console.WriteLine("Found following hubs with shockers:");
 
 var allShockers = new List<Shocker>();
 
@@ -35,50 +35,66 @@ foreach (var device in devices)
     }
 }
 
+// todo validate shockers in configuration.
+
+
+
+async Task punish(int amount, int duration, int playerIndex, string reason, ShockerCommandType type = ShockerCommandType.Shock)
+{
+    string[] shockerNames;
+
+    switch (playerIndex)
+    {
+        case 0: shockerNames = configuration.Player1Shockers;
+            
+            break;
+        case 1: shockerNames = configuration.Player2Shockers;
+
+            break;
+        case 2: shockerNames = configuration.Player3Shockers;
+
+            break;
+        case 3: shockerNames = configuration.Player4Shockers;
+
+            break;
+        default: 
+            return;
+    }
+
+    var shockers = shockerNames.Select(s => allShockers.First(aS => aS.name == s));
+
+    foreach (var shocker in shockers)
+    {
+        await api.ControlShocker(new ControlRequest() {
+            Amount = amount,
+            Duration = duration,
+            Name = reason,
+            Shocker = shocker,
+            Type = type
+        });
+    }
+}
+
+
 ModBridge bridge = new()
 {
-    OnDamage = async amount =>
+    OnDamage = async (amount, playerIndex) =>
     {
-        foreach (var shocker in allShockers)
-        {
-            Console.WriteLine($"Got hit with {amount} damage. Sending shock...");
-            await api.ControlShocker(new ControlRequest() {
-                Amount = 20 + amount * 20,
-                Duration = 1000,
-                Name = "Isaac got hurt",
-                Shocker = shocker,
-                Type = ShockerCommandType.Shock
-            });
-        }
+        await punish(configuration.HitStrength, configuration.HitDuration, playerIndex, $"Player {playerIndex} got hurt");
     },
-    OnIntentionalDamage = async amount => 
+    OnIntentionalDamage = async (amount, playerIndex) => 
     {
-        foreach (var shocker in allShockers)
-        {
-            Console.WriteLine("Got intentional damage (sacrifice room, etc). Sending shock...");
-            await api.ControlShocker(new ControlRequest() {
-                Amount = 100,
-                Duration = 300,
-                Name = "Isaac got hurt",
-                Shocker = shocker,
-                Type = ShockerCommandType.Shock
-            });
-        }
+        ShockerCommandType type = ShockerCommandType.Shock;
+
+        if (configuration.IntentionalDamageMode == "Shock") type = ShockerCommandType.Shock;
+        if (configuration.IntentionalDamageMode == "Vibrate") type = ShockerCommandType.Vibrate;
+        
+        await punish(configuration.IntentionalHitStrength, configuration.IntentionalHitDuration, playerIndex, $"Player {playerIndex} got intentionally hurt", type);
     },
-    OnDeath = async () => 
+    OnDeath = async (playerIndex) => 
     {
-        foreach (var shocker in allShockers)
-        {
-            Console.WriteLine("Isaac died. Sending shock...");
-            await api.ControlShocker(new ControlRequest() {
-                Amount = 70,
-                Duration = 1500,
-                Name = "Isaac died",
-                Shocker = shocker,
-                Type = ShockerCommandType.Shock
-            });
-        }
-    },
+        await punish(configuration.DeathStrength, configuration.DeathDuration, playerIndex, $"Player {playerIndex} died" );
+    }
 };
 
 

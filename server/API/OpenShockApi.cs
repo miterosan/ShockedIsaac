@@ -40,7 +40,7 @@ public class OpenShockAPI
             "application/json"
         );
 
-        Console.WriteLine($"Sending shock with intensity: {controlRequest.Amount}, duration: {controlRequest.Duration}");
+//        Console.WriteLine($"Sending shock with intensity: {controlRequest.Amount}, duration: {controlRequest.Duration}");
 
         await httpClient.PostAsync("/2/shockers/control", jsonContent);
     }
